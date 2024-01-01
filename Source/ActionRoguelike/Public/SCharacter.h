@@ -35,6 +35,8 @@ public:
 
 	void MoveForward(float value);
 
+	void MoveRight(float Value);
+
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 };

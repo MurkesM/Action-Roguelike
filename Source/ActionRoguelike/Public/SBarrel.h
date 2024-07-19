@@ -6,33 +6,29 @@
 #include "GameFramework/Actor.h"
 #include "SBarrel.generated.h"
 
-
 class UStaticMeshComponent;
 class URadialForceComponent;
-
 
 UCLASS()
 class ACTIONROGUELIKE_API ASBarrel : public AActor
 {
 	GENERATED_BODY()
 
-public:	
+public:
 	// Sets default values for this actor's properties
 	ASBarrel();
 
 protected:
 
 	UPROPERTY(VisibleAnywhere)
-	UStaticMeshComponent* MeshComponent;
+	UStaticMeshComponent* MeshComp;
 
 	UPROPERTY(VisibleAnywhere)
-	URadialForceComponent* RadialForceComponent;
+	URadialForceComponent* ForceComp;
 
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
+	virtual void PostInitializeComponents() override;
 
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
-
+	// Must be marked with ufunction in order to 'bind' the event
+	UFUNCTION()
+	void OnActorHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 };

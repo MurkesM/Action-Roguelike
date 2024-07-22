@@ -82,25 +82,3 @@ void ASCharacter::PrimaryAttack()
 
 	GetWorld()->SpawnActor<AActor>(ProjectileClass, SpawnTM, SpawnParams);
 }
-
-void ASCharacter::Jump() 
-{
-	FRotator ControlRotation = GetControlRotation();
-	ControlRotation.Pitch = 0.0f;
-	ControlRotation.Roll = 0.0f;
-
-	FVector UpVector = FRotationMatrix(ControlRotation).GetScaledAxis(EAxis::Z);
-	UpVector.Z *= 1000;
-
-	UCharacterMovementComponent* MovementComponent = GetCharacterMovement();
-
-	MovementComponent->AddForce(FVector(0, 0, 100));
-
-	//// Check if the character is not already falling
-	//if (!MovementComponent->IsFalling())
-	//{
-	//	
-	//}
-
-	UE_LOG(LogTemp, Log, TEXT("Jump"));
-}

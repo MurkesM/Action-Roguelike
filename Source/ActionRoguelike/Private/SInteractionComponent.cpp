@@ -2,6 +2,8 @@
 
 
 #include "SInteractionComponent.h"
+#include "SGameplayInterface.h"
+#include "DrawDebugHelpers.h"
 
 // Sets default values for this component's properties
 USInteractionComponent::USInteractionComponent()
@@ -33,5 +35,47 @@ void USInteractionComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 
 void USInteractionComponent::PrimaryInteract()
 {
+	FCollisionObjectQueryParams ObjectQueryParams;
+	ObjectQueryParams.AddObjectTypesToQuery(ECC_WorldDynamic);
 
+	AActor* MyOwner = GetOwner();
+
+	FVector EyeLocation;
+	FRotator EyeRotation;
+	MyOwner->GetActorEyesViewPoint(EyeLocation, EyeRotation);
+
+	FVector End = EyeLocation + (EyeRotation.Vector() * 1000);
+
+	FCollisionShape Shape;
+	Shape.SetSphere(30.f);
+
+	TArray<FHitResult> Hits;
+	bool successfulHit = GetWorld()->SweepMultiByObjectType(Hits, EyeLocation, End, FQuat::Identity, ObjectQueryParams, Shape);
+
+	FColor DebugColor = successfulHit ? FColor::Green : FColor::Red;
+
+	//UE_LOG(LogTemp, Log, TEXT("try primary Interact from interaction component"));
+
+	for (FHitResult Hit : Hits)
+	{
+		AActor* HitActor = Hit.GetActor();
+
+		if (HitActor)
+		{
+			if (HitActor->Implements<USGameplayInterface>())
+			{
+				APawn* MyPawn = Cast<APawn>(MyOwner);
+
+				ISGameplayInterface::Execute_Interact(HitActor, MyPawn);
+
+				//UE_LOG(LogTemp, Log, TEXT("successful primary Interact from interaction component"));
+
+				break;
+			}
+		}
+
+		DrawDebugSphere(GetWorld(), Hit.ImpactPoint, 30.0f, 32, DebugColor, false, 2.0f);
+	}
+
+	DrawDebugLine(GetWorld(), EyeLocation, End, DebugColor, false, 2.0f, 0, 2.0f);
 }

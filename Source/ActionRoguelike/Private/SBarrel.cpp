@@ -38,6 +38,5 @@ void ASBarrel::OnActorHit(UPrimitiveComponent* HitComponent, AActor* OtherActor,
 {
 	ForceComp->FireImpulse();
 
-	// Logging example to make sure we reached the event
-	UE_LOG(LogTemp, Log, TEXT("OnActorHit reached (ExplosiveBarrel)"));
+	//UE_LOG(LogTemp, Log, TEXT("OnActorHit reached (ExplosiveBarrel)"));
 }

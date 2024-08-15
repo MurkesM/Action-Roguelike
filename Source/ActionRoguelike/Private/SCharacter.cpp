@@ -85,15 +85,43 @@ void ASCharacter::PrimaryAttack()
 
 void ASCharacter::PrimaryAttack_TimeElapsed()
 {
+	FVector HitLocation = GetHitLocationFromCameraCenter();
+
+	if (HitLocation == FVector::Zero())
+		return;
+
 	FVector HandLocation = GetMesh()->GetSocketLocation("Muzzle_01");
 
-	FTransform SpawnTM = FTransform(GetControlRotation(), HandLocation);
+	FVector DirectionVector = HitLocation - HandLocation;
+	FRotator DirectionRotator = DirectionVector.Rotation();
+
+	FTransform SpawnTM = FTransform(DirectionRotator, HandLocation);
 
 	FActorSpawnParameters SpawnParams;
 	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 	SpawnParams.Instigator = this;
 
 	GetWorld()->SpawnActor<AActor>(ProjectileClass, SpawnTM, SpawnParams);
+}
+
+FVector ASCharacter::GetHitLocationFromCameraCenter()
+{
+	FVector HitLocation = FVector::Zero();
+
+	FVector CameraLocation = CameraComp->GetComponentLocation();
+	FRotator CameraRotation = CameraComp->GetComponentRotation();
+	FVector ForwardVector = CameraRotation.Vector();
+
+	FVector Start = CameraLocation;
+	FVector End = Start + (ForwardVector * 100000.0f);
+
+	FHitResult HitResult;
+	FCollisionQueryParams CollisionParams;
+
+	if (GetWorld()->LineTraceSingleByChannel(HitResult, Start, End, ECC_Visibility, CollisionParams))
+		HitLocation = HitResult.ImpactPoint;
+
+	return HitLocation;
 }
 
 void ASCharacter::PrimaryInteract()

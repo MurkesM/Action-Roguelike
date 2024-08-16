@@ -68,6 +68,8 @@ public:
 
 	void UltimateAttack_TimeElapsed();
 
+	void SpawnProjectile(TSubclassOf<ASBaseProjectile> Projectile);
+
 	void PrimaryInteract();
 
 	// Called to bind functionality to input

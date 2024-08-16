@@ -8,7 +8,6 @@
 #include "SBaseProjectile.generated.h"
 
 class USphereComponent;
-//class UProjectileMovementComponent;
 class UParticleSystemComponent;
 
 UCLASS()

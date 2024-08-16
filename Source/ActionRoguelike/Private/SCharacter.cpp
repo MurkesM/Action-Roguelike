@@ -86,23 +86,7 @@ void ASCharacter::PrimaryAttack()
 
 void ASCharacter::PrimaryAttack_TimeElapsed()
 {
-	FVector HitLocation = GetHitLocationFromCameraCenter();
-
-	if (HitLocation == FVector::Zero())
-		return;
-
-	FVector HandLocation = GetMesh()->GetSocketLocation("Muzzle_01");
-
-	FVector DirectionVector = HitLocation - HandLocation;
-	FRotator DirectionRotator = DirectionVector.Rotation();
-
-	FTransform SpawnTM = FTransform(DirectionRotator, HandLocation);
-
-	FActorSpawnParameters SpawnParams;
-	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-	SpawnParams.Instigator = this;
-
-	GetWorld()->SpawnActor<AActor>(MagicProjectileClass, SpawnTM, SpawnParams);
+	SpawnProjectile(MagicProjectileClass);
 }
 
 void ASCharacter::UltimateAttack()
@@ -114,6 +98,11 @@ void ASCharacter::UltimateAttack()
 
 void ASCharacter::UltimateAttack_TimeElapsed()
 {
+	SpawnProjectile(BlackHoleProjectileClass);
+}
+
+void ASCharacter::SpawnProjectile(TSubclassOf<ASBaseProjectile> Projectile)
+{
 	FVector HitLocation = GetHitLocationFromCameraCenter();
 
 	if (HitLocation == FVector::Zero())
@@ -130,7 +119,7 @@ void ASCharacter::UltimateAttack_TimeElapsed()
 	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 	SpawnParams.Instigator = this;
 
-	GetWorld()->SpawnActor<AActor>(BlackHoleProjectileClass, SpawnTM, SpawnParams);
+	GetWorld()->SpawnActor<AActor>(Projectile, SpawnTM, SpawnParams);
 }
 
 FVector ASCharacter::GetHitLocationFromCameraCenter()

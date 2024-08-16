@@ -7,7 +7,8 @@
 #include "SMyProjectileMovementComponent.generated.h"
 
 /**
- * 
+ * Overriding Unreal's UProjectileMovementComponent so that we can make sure when the movement component hits an object, it won't call code that automatically
+ * stops the projectile.
  */
 UCLASS()
 class ACTIONROGUELIKE_API USMyProjectileMovementComponent : public UProjectileMovementComponent

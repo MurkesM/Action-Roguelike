@@ -120,6 +120,8 @@ FVector ASCharacter::GetHitLocationFromCameraCenter()
 
 	if (GetWorld()->LineTraceSingleByChannel(HitResult, Start, End, ECC_Visibility, CollisionParams))
 		HitLocation = HitResult.ImpactPoint;
+	else
+		HitLocation = HitResult.TraceEnd;
 
 	return HitLocation;
 }

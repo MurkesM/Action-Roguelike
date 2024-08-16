@@ -52,6 +52,7 @@ void ASCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 
 	PlayerInputComponent->BindAction("PrimaryAttack", IE_Pressed, this, &ASCharacter::PrimaryAttack);
 	PlayerInputComponent->BindAction("UltimateAttack", IE_Pressed, this, &ASCharacter::UltimateAttack);
+	PlayerInputComponent->BindAction("TeleportAttack", IE_Pressed, this, &ASCharacter::TeleportAttack);
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ASCharacter::Jump);
 
 	PlayerInputComponent->BindAction("PrimaryInteract", IE_Pressed, this, &ASCharacter::PrimaryInteract);
@@ -99,6 +100,18 @@ void ASCharacter::UltimateAttack()
 void ASCharacter::UltimateAttack_TimeElapsed()
 {
 	SpawnProjectile(BlackHoleProjectileClass);
+}
+
+void ASCharacter::TeleportAttack()
+{
+	PlayAnimMontage(PrimaryAttackAnim);
+
+	GetWorldTimerManager().SetTimer(TimerHandle_TeleportAttack, this, &ASCharacter::TeleportAttack_TimeElapsed, 0.2f);
+}
+
+void ASCharacter::TeleportAttack_TimeElapsed()
+{
+	SpawnProjectile(TeleportProjectileClass);
 }
 
 void ASCharacter::SpawnProjectile(TSubclassOf<ASBaseProjectile> Projectile)

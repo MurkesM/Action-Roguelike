@@ -26,11 +26,14 @@ protected:
 	TSubclassOf<ASBaseProjectile> BlackHoleProjectileClass;
 
 	UPROPERTY(EditAnywhere, Category = "Attack")
+	TSubclassOf<ASBaseProjectile> TeleportProjectileClass;
+
+	UPROPERTY(EditAnywhere, Category = "Attack")
 	UAnimMontage* PrimaryAttackAnim;
 
 	FTimerHandle TimerHandle_PrimaryAttack;
-
 	FTimerHandle TimerHandle_UltimateAttack;
+	FTimerHandle TimerHandle_TeleportAttack;
 
 public:
 	// Sets default values for this character's properties
@@ -67,6 +70,10 @@ public:
 	void UltimateAttack();
 
 	void UltimateAttack_TimeElapsed();
+
+	void TeleportAttack();
+
+	void TeleportAttack_TimeElapsed();
 
 	void SpawnProjectile(TSubclassOf<ASBaseProjectile> Projectile);
 

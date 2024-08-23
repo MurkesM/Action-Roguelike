@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "PhysicsEngine/RadialForceComponent.h"
 #include "SBlackHoleProjectile.h"
+#include "PhysicsEngine/RadialForceComponent.h"
 
 // Sets default values
 ASBlackHoleProjectile::ASBlackHoleProjectile()

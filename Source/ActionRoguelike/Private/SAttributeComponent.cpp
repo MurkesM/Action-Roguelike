@@ -7,8 +7,11 @@ USAttributeComponent::USAttributeComponent()
 	Health = 100;
 }
 
-bool USAttributeComponent::ApplyHealthChange(float Delta)
+bool USAttributeComponent::ApplyHealthChange(AActor* InstigatorActor, float Delta)
 {
 	Health += Delta;
+
+	OnHealthChanged.Broadcast(InstigatorActor, this, Health, Delta);
+
 	return true;
 }

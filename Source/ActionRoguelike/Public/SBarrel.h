@@ -20,15 +20,22 @@ public:
 
 protected:
 
+	bool HasExploded = false;
+
 	UPROPERTY(VisibleAnywhere)
 	UStaticMeshComponent* MeshComp;
 
 	UPROPERTY(VisibleAnywhere)
 	URadialForceComponent* ForceComp;
 
+	FTimerHandle TimerHandle;
+
 	virtual void PostInitializeComponents() override;
 
 	// Must be marked with ufunction in order to 'bind' the event
 	UFUNCTION()
 	void OnActorHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
+
+	UFUNCTION()
+	void ExplosionTimer();
 };

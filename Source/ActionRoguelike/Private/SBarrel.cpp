@@ -3,6 +3,8 @@
 #include "SBarrel.h"
 #include "PhysicsEngine/RadialForceComponent.h"
 #include "Components/StaticMeshComponent.h"
+#include "SAttributeComponent.h"
+#include "TimerManager.h"
 
 // Sets default values
 ASBarrel::ASBarrel()
@@ -36,7 +38,27 @@ void ASBarrel::PostInitializeComponents()
 
 void ASBarrel::OnActorHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
+	if (HasExploded)
+		return;
+
 	ForceComp->FireImpulse();
 
-	//UE_LOG(LogTemp, Log, TEXT("OnActorHit reached (ExplosiveBarrel)"));
+	if (OtherActor)
+	{
+		USAttributeComponent* attributeComponent = OtherActor->GetComponentByClass<USAttributeComponent>();
+
+		if (attributeComponent)
+		{
+			attributeComponent->ApplyHealthChange(this, -50);
+		}
+	}
+
+	HasExploded = true;
+
+	GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &ASBarrel::ExplosionTimer, 1.0f);
+}
+
+void ASBarrel::ExplosionTimer()
+{
+	GetWorld()->DestroyActor(this);
 }

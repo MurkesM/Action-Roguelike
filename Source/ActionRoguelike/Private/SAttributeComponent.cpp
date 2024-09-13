@@ -7,6 +7,11 @@ USAttributeComponent::USAttributeComponent()
 	Health = 100;
 }
 
+bool USAttributeComponent::IsAlive() const
+{
+	return Health > 0;
+}
+
 bool USAttributeComponent::ApplyHealthChange(AActor* InstigatorActor, float Delta)
 {
 	Health += Delta;

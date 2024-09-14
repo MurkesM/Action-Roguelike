@@ -17,6 +17,8 @@ bool USAttributeComponent::ApplyHealthChange(AActor* InstigatorActor, float Delt
 {
 	CurrentHealth += Delta;
 
+	CurrentHealth = FMath::Clamp(CurrentHealth, 0, MaxHealth);
+
 	OnHealthChanged.Broadcast(InstigatorActor, this, CurrentHealth, Delta);
 
 	//only perform the next action if damage was done, not if the player was healed or if the delta was 0.

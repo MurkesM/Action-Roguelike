@@ -18,7 +18,8 @@ bool USAttributeComponent::ApplyHealthChange(AActor* InstigatorActor, float Delt
 
 	OnHealthChanged.Broadcast(InstigatorActor, this, Health, Delta);
 
-	if (OwningActorMeshComp)
+	//only perform the next action if damage was done, not if the player was healed or if the delta was 0.
+	if (Delta < 0 && OwningActorMeshComp)
 		OwningActorMeshComp->SetScalarParameterValueOnMaterials("TimeToHit", GetWorld()->TimeSeconds);
 
 	return true;

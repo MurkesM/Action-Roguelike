@@ -32,14 +32,20 @@ public:
 	UFUNCTION(BlueprintCallable)
 	bool IsAlive() const;
 
+	UFUNCTION(BlueprintCallable)
+	bool IsAtMaxHealth();
+
 	UPROPERTY(BlueprintAssignable)
 	FOnHealthChanged OnHealthChanged;
 
 	UFUNCTION(BlueprintCallable, Category = "Attribute")
 	bool ApplyHealthChange(AActor* InstigatorActor, float Delta);
 
-	void AssignOwningActorMeshComp(USkeletalMeshComponent* MeshCompToAssign)
-	{
-		OwningActorMeshComp = MeshCompToAssign;
-	}
+	void AssignOwningActorMeshComp(USkeletalMeshComponent* MeshCompToAssign);
+
+	UFUNCTION(BlueprintCallable)
+	int GetCurrentHealth();
+
+	UFUNCTION(BlueprintCallable)
+	int GetMaxHealth();
 };

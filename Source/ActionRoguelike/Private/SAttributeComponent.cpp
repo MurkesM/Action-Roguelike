@@ -13,6 +13,11 @@ bool USAttributeComponent::IsAlive() const
 	return CurrentHealth > 0;
 }
 
+bool USAttributeComponent::IsAtMaxHealth()
+{
+	return CurrentHealth >= MaxHealth;
+}
+
 bool USAttributeComponent::ApplyHealthChange(AActor* InstigatorActor, float Delta)
 {
 	CurrentHealth += Delta;
@@ -26,4 +31,19 @@ bool USAttributeComponent::ApplyHealthChange(AActor* InstigatorActor, float Delt
 		OwningActorMeshComp->SetScalarParameterValueOnMaterials("TimeToHit", GetWorld()->TimeSeconds);
 
 	return true;
+}
+
+void USAttributeComponent::AssignOwningActorMeshComp(USkeletalMeshComponent* MeshCompToAssign)
+{
+	OwningActorMeshComp = MeshCompToAssign;
+}
+
+int USAttributeComponent::GetCurrentHealth()
+{
+	return CurrentHealth;
+}
+
+int USAttributeComponent::GetMaxHealth()
+{
+	return MaxHealth;
 }

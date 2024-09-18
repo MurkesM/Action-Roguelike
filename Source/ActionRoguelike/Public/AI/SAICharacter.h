@@ -25,5 +25,5 @@ protected:
 	virtual void PostInitializeComponents() override;
 
 	UFUNCTION()
-	void OnPawnScene(APawn* Pawn);
+	void OnPawnSeen(APawn* Pawn);
 };

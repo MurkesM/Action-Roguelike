@@ -16,10 +16,10 @@ void ASAICharacter::PostInitializeComponents()
 {
 	Super::PostInitializeComponents();
 
-	PawnSensingComp->OnSeePawn.AddDynamic(this, &ASAICharacter::OnPawnScene);
+	PawnSensingComp->OnSeePawn.AddDynamic(this, &ASAICharacter::OnPawnSeen);
 }
 
-void ASAICharacter::OnPawnScene(APawn* Pawn)
+void ASAICharacter::OnPawnSeen(APawn* Pawn)
 {
 	AAIController* AIController = Cast<AAIController>(GetController());
 

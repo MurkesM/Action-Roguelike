@@ -1,11 +1,13 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "SAttributeComponent.h"
+#include <Kismet/KismetSystemLibrary.h>
 
 USAttributeComponent::USAttributeComponent()
 {
 	MaxHealth = 100;
-	CurrentHealth = 100;
+	CurrentHealth = MaxHealth;
+	LowHealthThreshold = MaxHealth / 4;
 }
 
 bool USAttributeComponent::IsAlive() const
@@ -13,9 +15,14 @@ bool USAttributeComponent::IsAlive() const
 	return CurrentHealth > 0;
 }
 
-bool USAttributeComponent::IsAtMaxHealth()
+bool USAttributeComponent::IsAtMaxHealth() const
 {
 	return CurrentHealth >= MaxHealth;
+}
+
+bool USAttributeComponent::HasLowHealth() const
+{
+	return CurrentHealth <= LowHealthThreshold;
 }
 
 bool USAttributeComponent::ApplyHealthChange(AActor* InstigatorActor, float Delta)

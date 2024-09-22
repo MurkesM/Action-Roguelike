@@ -9,6 +9,7 @@ ASAICharacter::ASAICharacter()
 {
 	PrimaryActorTick.bCanEverTick = true;
 
+	AttributeComp = CreateDefaultSubobject<USAttributeComponent>("AttributeComp");
 	PawnSensingComp = CreateDefaultSubobject<UPawnSensingComponent>("PawnSensingComp");
 }
 

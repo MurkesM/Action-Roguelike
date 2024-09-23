@@ -26,6 +26,8 @@ protected:
 	UPROPERTY(VisibleAnywhere, Category = "Components")
 	UPawnSensingComponent* PawnSensingComp;
 
+	void SetTargetActor(AActor* NewTargetActor);
+
 	virtual void PostInitializeComponents() override;
 
 	UFUNCTION()

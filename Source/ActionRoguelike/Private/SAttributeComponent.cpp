@@ -10,6 +10,24 @@ USAttributeComponent::USAttributeComponent()
 	LowHealthThreshold = MaxHealth / 4;
 }
 
+USAttributeComponent* USAttributeComponent::GetAttributes(AActor* FromActor)
+{
+	if (!FromActor)
+		return nullptr;
+
+	return FromActor->FindComponentByClass<USAttributeComponent>();
+}
+
+bool USAttributeComponent::IsActorAlive(AActor* Actor)
+{
+	if (!Actor)
+		return false;
+
+	USAttributeComponent* AttributeComp = GetAttributes(Actor);
+
+	return AttributeComp->IsAlive();
+}
+
 bool USAttributeComponent::IsAlive() const
 {
 	return CurrentHealth > 0;

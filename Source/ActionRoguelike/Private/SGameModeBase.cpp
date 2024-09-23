@@ -27,7 +27,7 @@ void ASGameModeBase::SpawnBotTimerElaped()
 	{
 		ASAICharacter* Bot = *It;
 
-		USAttributeComponent* AttributeComp = Cast<USAttributeComponent>(Bot->GetComponentByClass(USAttributeComponent::StaticClass()));
+		USAttributeComponent* AttributeComp = USAttributeComponent::GetAttributes(Bot);
 
 		if (AttributeComp && AttributeComp->IsAlive())
 		{

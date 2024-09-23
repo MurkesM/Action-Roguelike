@@ -32,6 +32,12 @@ protected:
 
 public:	
 
+	UFUNCTION(BlueprintCallable, Category = "Attributes")
+	static USAttributeComponent* GetAttributes(AActor* FromActor);
+
+	UFUNCTION(BlueprintCallable, Category = "Attributes", meta = (DisplayName = "IsAlive"))
+	static bool IsActorAlive(AActor* Actor);
+
 	UFUNCTION(BlueprintCallable)
 	bool IsAlive() const;
 

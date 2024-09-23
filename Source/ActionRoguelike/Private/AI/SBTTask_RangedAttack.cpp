@@ -4,6 +4,12 @@
 #include "AIController.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "AI/SAICharacter.h"
+#include "SAttributeComponent.h"
+
+USBTTask_RangedAttack::USBTTask_RangedAttack()
+{
+	MaxBulletSpread = 2;
+}
 
 EBTNodeResult::Type USBTTask_RangedAttack::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
 {
@@ -20,15 +26,17 @@ EBTNodeResult::Type USBTTask_RangedAttack::ExecuteTask(UBehaviorTreeComponent& O
 
 		AActor* TargetActor = Cast<AActor>(OwnerComp.GetBlackboardComponent()->GetValueAsObject("TargetActor"));
 
-		if (TargetActor == nullptr)
+		if (TargetActor == nullptr || !USAttributeComponent::IsActorAlive(TargetActor))
 		{
 			return EBTNodeResult::Failed;
 		}
 
 		FVector MuzzleLocation = AICharacter->GetMesh()->GetSocketLocation("Muzzle_01");
-
 		FRotator MuzzleRotation= (TargetActor->GetActorLocation() - MuzzleLocation).Rotation();
 		
+		MuzzleRotation.Pitch += FMath::RandRange(0.0f, MaxBulletSpread);
+		MuzzleRotation.Yaw += FMath::RandRange(-MaxBulletSpread, MaxBulletSpread);
+
 		FActorSpawnParameters Params;
 		Params.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 		Params.Instigator = AICharacter;

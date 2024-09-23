@@ -25,7 +25,6 @@ ASCharacter::ASCharacter()
 	InteractionComp = CreateDefaultSubobject<USInteractionComponent>("InteractionComp");
 
 	AttributeComp = CreateDefaultSubobject<USAttributeComponent>("AttributeComp");
-	AttributeComp->AssignOwningActorMeshComp(MeshComp);
 
 	GetCharacterMovement()->bOrientRotationToMovement = true;
 
@@ -50,15 +49,6 @@ void ASCharacter::BeginPlay()
 void ASCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-}
-
-void ASCharacter::OnHealthChanged(AActor* InstigatorActor, USAttributeComponent* OwningComp, float NewHealth, float Delta)
-{
-	if (NewHealth <= 0.0f && Delta < 0.0f)
-	{
-		APlayerController* PlayerController = Cast<APlayerController>(GetController());
-		DisableInput(PlayerController);
-	}
 }
 
 // Called to bind functionality to input
@@ -183,5 +173,18 @@ void ASCharacter::PrimaryInteract()
 		InteractionComp->PrimaryInteract();
 
 		//UE_LOG(LogTemp, Log, TEXT("primary Interact from character"));
+	}
+}
+
+void ASCharacter::OnHealthChanged(AActor* InstigatorActor, USAttributeComponent* OwningComp, float NewHealth, float Delta)
+{
+	//only perform the next action if damage was done, not if the object was healed or if the delta was 0.
+	if (Delta < 0)
+		MeshComp->SetScalarParameterValueOnMaterials("TimeToHit", GetWorld()->TimeSeconds);
+
+	if (NewHealth <= 0.0f && Delta < 0.0f)
+	{
+		APlayerController* PlayerController = Cast<APlayerController>(GetController());
+		DisableInput(PlayerController);
 	}
 }

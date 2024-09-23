@@ -28,6 +28,10 @@ void ASAICharacter::OnHealthChanged(AActor* InstigatorActor, USAttributeComponen
 {
 	if (Delta < 0.0f && InstigatorActor != this)
 	{
+		//only perform the next action if damage was done, not if the object was healed or if the delta was 0.
+		if (Delta < 0)
+			GetMesh()->SetScalarParameterValueOnMaterials("TimeToHit", GetWorld()->TimeSeconds);
+
 		if (!OwningComp->IsAlive())
 		{
 			AAIController* AIController = Cast<AAIController>(GetController());

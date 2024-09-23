@@ -16,9 +16,6 @@ class ACTIONROGUELIKE_API USAttributeComponent : public UActorComponent
 public:	
 	USAttributeComponent();
 
-	UPROPERTY(VisibleAnywhere, Category = "Owning Actor Fields")
-	USkeletalMeshComponent* OwningActorMeshComp;
-
 protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Attributes")
@@ -52,8 +49,6 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Attribute")
 	bool ApplyHealthChange(AActor* InstigatorActor, float Delta);
-
-	void AssignOwningActorMeshComp(USkeletalMeshComponent* MeshCompToAssign);
 
 	UFUNCTION(BlueprintCallable)
 	int GetCurrentHealth();

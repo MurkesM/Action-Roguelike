@@ -27,17 +27,22 @@ bool USAttributeComponent::HasLowHealth() const
 
 bool USAttributeComponent::ApplyHealthChange(AActor* InstigatorActor, float Delta)
 {
+	float OldHealth = CurrentHealth;
+
 	CurrentHealth += Delta;
 
 	CurrentHealth = FMath::Clamp(CurrentHealth, 0, MaxHealth);
 
-	OnHealthChanged.Broadcast(InstigatorActor, this, CurrentHealth, Delta);
+	//since health is clamped, we need to get the value of health that was actually effected and not just the delta of what was passed in
+	float ActualDelta = CurrentHealth - OldHealth;
 
 	//only perform the next action if damage was done, not if the player was healed or if the delta was 0.
 	if (Delta < 0 && OwningActorMeshComp)
 		OwningActorMeshComp->SetScalarParameterValueOnMaterials("TimeToHit", GetWorld()->TimeSeconds);
 
-	return true;
+	OnHealthChanged.Broadcast(InstigatorActor, this, CurrentHealth, ActualDelta);
+
+	return ActualDelta != 0;
 }
 
 void USAttributeComponent::AssignOwningActorMeshComp(USkeletalMeshComponent* MeshCompToAssign)

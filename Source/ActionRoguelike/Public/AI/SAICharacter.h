@@ -8,6 +8,7 @@
 #include "SAICharacter.generated.h"
 
 class UPawnSensingComponent;
+class UUserWidget;
 
 UCLASS()
 class ACTIONROGUELIKE_API ASAICharacter : public ACharacter
@@ -20,6 +21,9 @@ public:
 
 protected:
 	
+	UPROPERTY(EditDefaultsOnly, Category = "UI")
+	TSubclassOf<UUserWidget> HealthBarWidgetClass;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	USAttributeComponent* AttributeComp;
 

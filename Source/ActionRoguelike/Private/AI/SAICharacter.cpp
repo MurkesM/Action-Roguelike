@@ -5,6 +5,7 @@
 #include "BehaviorTree/BlackboardComponent.h"
 #include "AIController.h"
 #include "BrainComponent.h"
+#include "SWorldUserWidget.h"
 
 ASAICharacter::ASAICharacter()
 {
@@ -22,6 +23,14 @@ void ASAICharacter::PostInitializeComponents()
 
 	AttributeComp->OnHealthChanged.AddDynamic(this, &ASAICharacter::OnHealthChanged);
 	PawnSensingComp->OnSeePawn.AddDynamic(this, &ASAICharacter::OnPawnSeen);
+
+	USWorldUserWidget* HealthBarWidget = CreateWidget<USWorldUserWidget>(GetWorld(), HealthBarWidgetClass);
+
+	if (HealthBarWidget)
+	{
+		HealthBarWidget->AttachedActor = this;
+		HealthBarWidget->AddToViewport();
+	}
 }
 
 void ASAICharacter::OnHealthChanged(AActor* InstigatorActor, USAttributeComponent* OwningComp, float NewHealth, float Delta)

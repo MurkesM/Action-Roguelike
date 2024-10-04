@@ -45,6 +45,9 @@ bool USAttributeComponent::HasLowHealth() const
 
 bool USAttributeComponent::ApplyHealthChange(AActor* InstigatorActor, float Delta)
 {
+	if (!GetOwner()->CanBeDamaged())
+		return false;
+
 	float OldHealth = CurrentHealth;
 
 	CurrentHealth += Delta;
@@ -67,4 +70,9 @@ int USAttributeComponent::GetCurrentHealth()
 int USAttributeComponent::GetMaxHealth()
 {
 	return MaxHealth;
+}
+
+bool USAttributeComponent::Kill(AActor* InstigatorActor)
+{
+	return ApplyHealthChange(InstigatorActor, -MaxHealth);
 }

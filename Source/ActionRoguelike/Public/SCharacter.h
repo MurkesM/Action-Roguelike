@@ -92,4 +92,7 @@ public:
 	void PrimaryInteract();
 
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	UFUNCTION(Exec)
+	void HealSelf(float HealAmount);
 };

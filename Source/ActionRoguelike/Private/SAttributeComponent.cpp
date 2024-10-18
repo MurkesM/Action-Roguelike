@@ -1,7 +1,10 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "SAttributeComponent.h"
-#include <Kismet/KismetSystemLibrary.h>
+#include "Kismet/KismetSystemLibrary.h"
+#include "SGameModeBase.h"
+
+static TAutoConsoleVariable<float> CVarDamageMultiplier(TEXT("su.DamageMultiplier"), 1.0f, TEXT("Global Damage Muliplier for Attribute Component."), ECVF_Cheat);
 
 USAttributeComponent::USAttributeComponent()
 {
@@ -48,6 +51,13 @@ bool USAttributeComponent::ApplyHealthChange(AActor* InstigatorActor, float Delt
 	if (!GetOwner()->CanBeDamaged())
 		return false;
 
+	if (Delta < 0.0f)
+	{
+		float DamageMultiplier = CVarDamageMultiplier.GetValueOnGameThread();
+
+		Delta *= DamageMultiplier;
+	}
+
 	float OldHealth = CurrentHealth;
 
 	CurrentHealth += Delta;
@@ -58,6 +68,16 @@ bool USAttributeComponent::ApplyHealthChange(AActor* InstigatorActor, float Delt
 	float ActualDelta = CurrentHealth - OldHealth;
 
 	OnHealthChanged.Broadcast(InstigatorActor, this, CurrentHealth, ActualDelta);
+
+	if (!IsAlive())
+	{
+		GetOwner()->SetCanBeDamaged(false);
+
+		ASGameModeBase* GameMode = GetWorld()->GetAuthGameMode<ASGameModeBase>();
+
+		if (GameMode != nullptr)
+			GameMode->OnActorKilled(GetOwner(), InstigatorActor);
+	}
 
 	return ActualDelta != 0;
 }

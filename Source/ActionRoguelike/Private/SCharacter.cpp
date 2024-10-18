@@ -166,6 +166,11 @@ FVector ASCharacter::GetHitLocationFromCameraCenter()
 	return HitLocation;
 }
 
+FVector ASCharacter::GetPawnViewLocation() const
+{
+	return CameraComp->GetComponentLocation();
+}
+
 void ASCharacter::PrimaryInteract()
 {
 	if (InteractionComp) 

@@ -5,6 +5,7 @@
 #include "Camera/CameraComponent.h"
 #include "GameFramework//CharacterMovementComponent.h"
 #include "SInteractionComponent.h"
+#include "SPlayerState.h"
 #include "SAttributeComponent.h"
 
 // Sets default values

@@ -28,6 +28,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly)
 	float TimeBetweenInteracts;
 
+	UPROPERTY(EditDefaultsOnly)
+	int CreditCost;
+
 	FTimerHandle TimerHandle;
 
 	void InteractTimer();

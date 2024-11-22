@@ -10,6 +10,8 @@ ASHealthPotionBehavior::ASHealthPotionBehavior()
 {
 	IsInteractable = true;
 
+	TimeBetweenInteracts = 2;
+
 	AmountToHeal = 50;
 
 	CreditCost = 2;
@@ -44,11 +46,11 @@ void ASHealthPotionBehavior::Interact_Implementation(APawn* InstigatorPawn)
 void ASHealthPotionBehavior::ResetPotionValues()
 {
 	IsInteractable = true;
+
+	MeshComp->SetVisibility(true);
 }
 
 void ASHealthPotionBehavior::InteractTimer()
 {
 	ResetPotionValues();
-
-	MeshComp->SetVisibility(true);
 }

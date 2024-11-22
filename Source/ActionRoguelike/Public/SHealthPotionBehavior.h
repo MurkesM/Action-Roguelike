@@ -16,7 +16,7 @@ public:
 	// Sets default values for this actor's properties
 	ASHealthPotionBehavior();
 
-    void Interact_Implementation(APawn* InstigatorPawn);
+    void Interact_Implementation(APawn* InstigatorPawn) override;
 
 	void ResetPotionValues();
 
@@ -25,13 +25,5 @@ protected:
 	UPROPERTY(EditDefaultsOnly)
 	float AmountToHeal;
 
-	UPROPERTY(EditDefaultsOnly)
-	float TimeBetweenInteracts;
-
-	UPROPERTY(EditDefaultsOnly)
-	int CreditCost;
-
-	FTimerHandle TimerHandle;
-
-	void InteractTimer();
+	void InteractTimer() override;
 };

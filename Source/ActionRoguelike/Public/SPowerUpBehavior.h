@@ -29,8 +29,17 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	bool IsInteractable;
 
+	UPROPERTY(EditDefaultsOnly)
+	float TimeBetweenInteracts;
+
+	UPROPERTY(EditDefaultsOnly)
+	int CreditCost;
+
+	FTimerHandle TimerHandle;
+
+	virtual void InteractTimer();
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
 };

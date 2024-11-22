@@ -6,9 +6,8 @@
 #include "GameFramework/PlayerState.h"
 #include "SPlayerState.generated.h"
 
-/**
- * 
- */
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnCreditsChanged, int, NewCredits);
+
 UCLASS()
 class ACTIONROGUELIKE_API ASPlayerState : public APlayerState
 {
@@ -16,9 +15,11 @@ class ACTIONROGUELIKE_API ASPlayerState : public APlayerState
 	
 
 private:
-	int totalCredits;
+	int TotalCredits;
 
 public:
+	UPROPERTY(BlueprintAssignable)
+	FOnCreditsChanged OnCreditsChanged;
 
 	int GetTotalCredits();
 

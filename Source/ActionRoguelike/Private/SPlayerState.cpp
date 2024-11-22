@@ -4,27 +4,31 @@
 
 int ASPlayerState::GetTotalCredits()
 {
-	return totalCredits;
+	return TotalCredits;
 }
 
 void ASPlayerState::AddCredits(int creditsToAdd)
 {
-	totalCredits += creditsToAdd;
+	TotalCredits += creditsToAdd;
 
-	UE_LOG(LogTemp, Warning, TEXT("%d credits added"), totalCredits);
+	OnCreditsChanged.Broadcast(TotalCredits);
+
+	UE_LOG(LogTemp, Warning, TEXT("%d credits added"), TotalCredits);
 }
 
 bool ASPlayerState::TrySpendCredits(int creditsToSpend)
 {
-	if (totalCredits >= creditsToSpend)
+	if (TotalCredits >= creditsToSpend)
 	{
-		totalCredits -= creditsToSpend;
+		TotalCredits -= creditsToSpend;
 
-		UE_LOG(LogTemp, Warning, TEXT("%d credits spent"), totalCredits);
+		OnCreditsChanged.Broadcast(TotalCredits);
+
+		UE_LOG(LogTemp, Warning, TEXT("%d credits spent"), TotalCredits);
 		return true;
 	}
 
-	UE_LOG(LogTemp, Warning, TEXT("%d is not enough credits"), totalCredits);
+	UE_LOG(LogTemp, Warning, TEXT("%d is not enough credits"), TotalCredits);
 
 	return false;
 }
